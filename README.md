@@ -99,6 +99,15 @@ A aplicação estará disponível em:
 ```txt
 http://localhost:8080
 ```
+
+## Documentação da API (Swagger)
+
+Após iniciar a aplicação, a documentação interativa da API pode ser acessada em:
+
+```txt
+http://localhost:8080/swagger-ui/index.html
+```
+
 ### Estrutura do Projeto
 
 ```text
