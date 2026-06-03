@@ -61,7 +61,7 @@ Exemplo:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/imovcg
-spring.datasource.username=root
+spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
 ```
 
