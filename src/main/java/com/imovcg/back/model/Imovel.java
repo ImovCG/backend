@@ -17,4 +17,9 @@ public class Imovel {
     private String endereco;
     private String tipo;
     private String url;
+    private String email;
+
+    private boolean confirmado;
+
+    private String verificationToken;
 }

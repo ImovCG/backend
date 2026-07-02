@@ -41,6 +41,8 @@ public class ImovelSpecification {
                 );
             }
 
+            predicates.add(cb.isTrue(root.get("confirmado")));
+
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }

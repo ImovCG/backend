@@ -14,6 +14,8 @@ public class ImovelGetDTO {
     private String endereco;
     private String tipo;
     private String url;
+    private String email;
+    private boolean confirmado;
 
     public ImovelGetDTO (Imovel imovel) {
         this.id = imovel.getId();
@@ -22,5 +24,7 @@ public class ImovelGetDTO {
         this.endereco = imovel.getEndereco();
         this.tipo = imovel.getTipo();
         this.url = imovel.getUrl();
+        this.email = imovel.getEmail();
+        this.confirmado = imovel.isConfirmado();
     }
 }

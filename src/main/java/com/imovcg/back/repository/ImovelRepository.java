@@ -9,4 +9,6 @@ import com.imovcg.back.model.Imovel;
 @Repository
 public interface ImovelRepository extends JpaRepository<Imovel, Long>, JpaSpecificationExecutor<Imovel> {
 
+	java.util.Optional<Imovel> findByVerificationToken(String verificationToken);
+
 }

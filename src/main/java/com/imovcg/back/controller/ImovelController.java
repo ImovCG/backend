@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/imoveis")
@@ -35,7 +37,12 @@ public class ImovelController {
     }
     
     @PostMapping
-    public ResponseEntity<ImovelGetDTO> createImovel(@RequestBody ImovelPostDTO postDTO) {
+    public ResponseEntity<ImovelGetDTO> createImovel(@Valid @RequestBody ImovelPostDTO postDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(imovelService.saveImovel(postDTO));
+    }
+
+    @GetMapping("/confirmar")
+    public ResponseEntity<ImovelGetDTO> confirmarImovel(@RequestParam String token) {
+        return ResponseEntity.ok(imovelService.confirmImovel(token));
     }
 }

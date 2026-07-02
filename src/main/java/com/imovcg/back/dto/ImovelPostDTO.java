@@ -1,6 +1,7 @@
 package com.imovcg.back.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
@@ -21,5 +22,9 @@ public class ImovelPostDTO {
     
     @NotBlank
     private String url;
+
+    @NotBlank
+    @Email
+    private String email;
 
 }
