@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.imovcg.back.dto.ImoveisFiltrosDTO;
 import com.imovcg.back.dto.ImovelGetDTO;
@@ -15,7 +16,10 @@ import com.imovcg.back.model.Imovel;
 import com.imovcg.back.repository.ImovelRepository;
 import com.imovcg.back.specification.ImovelSpecification;
 
+import java.util.Optional;
+
 @Service
+@Transactional
 public class ImovelService {
     
     @Autowired
@@ -25,8 +29,18 @@ public class ImovelService {
     private ModelMapper modelMapper;
 
     public ImovelGetDTO saveImovel(ImovelPostDTO postDTO) {
-        Imovel imovel = modelMapper.map(postDTO, Imovel.class);
+        Imovel imovel;
 
+        if (postDTO.getExternalId() != null && !postDTO.getExternalId().isBlank()) {
+            Optional<Imovel> existing = imovelRepository.findByExternalId(postDTO.getExternalId());
+            if (existing.isPresent()) {
+                imovel = existing.get();
+                modelMapper.map(postDTO, imovel); // atualiza campos existentes
+                return modelMapper.map(imovelRepository.save(imovel), ImovelGetDTO.class);
+            }
+        }
+
+        imovel = modelMapper.map(postDTO, Imovel.class);
         return modelMapper.map(imovelRepository.save(imovel), ImovelGetDTO.class);
     }
 

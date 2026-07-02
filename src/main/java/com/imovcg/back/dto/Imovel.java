@@ -1,4 +1,4 @@
-package com.imovcg.back.model;
+package com.imovcg.back.dto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,8 +17,6 @@ public class Imovel {
     private String endereco;
     private String tipo;
     private String url;
-
-    // Campos adicionais coletados via web scraping
     private String externalId;
     private String tipoAnuncio;
     private String categoria;
