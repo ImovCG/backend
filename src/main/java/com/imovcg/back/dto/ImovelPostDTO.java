@@ -17,7 +17,7 @@ public class ImovelPostDTO {
     private String endereco;
     
     @NotBlank
-    private String tipo;
+    private String tipoImovel;
     
     @NotBlank
     private String url;

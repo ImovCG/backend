@@ -12,7 +12,7 @@ public class ImovelGetDTO {
     private String titulo;
     private Double preco;
     private String endereco;
-    private String tipo;
+    private String tipoImovel;
     private String url;
     private String externalId;
     private String tipoAnuncio;
@@ -33,7 +33,7 @@ public class ImovelGetDTO {
         this.titulo = imovel.getTitulo();
         this.preco = imovel.getPreco();
         this.endereco = imovel.getEndereco();
-        this.tipo = imovel.getTipo();
+        this.tipoImovel = imovel.getTipoImovel();
         this.url = imovel.getUrl();
         this.externalId = imovel.getExternalId();
         this.tipoAnuncio = imovel.getTipoAnuncio();
