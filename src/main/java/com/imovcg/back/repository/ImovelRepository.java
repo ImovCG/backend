@@ -11,5 +11,7 @@ import java.util.Optional;
 public interface ImovelRepository extends JpaRepository<Imovel, Long>, JpaSpecificationExecutor<Imovel> {
 
 	Optional<Imovel> findByExternalId(String externalId);
+	Optional<Imovel> findByHash(String hash);
+	boolean existsByHash(String hash);
 
 }

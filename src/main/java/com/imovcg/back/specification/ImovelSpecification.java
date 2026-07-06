@@ -32,11 +32,11 @@ public class ImovelSpecification {
                 );
             }
 
-            if (filtros.getTipo() != null && !filtros.getTipo().isBlank()) {
+            if (filtros.getTipoImovel() != null && !filtros.getTipoImovel().isBlank()) {
                 predicates.add(
                     cb.equal(
                         cb.lower(root.get("tipo")),
-                        filtros.getTipo().toLowerCase()
+                        filtros.getTipoImovel().toLowerCase()
                     )
                 );
             }

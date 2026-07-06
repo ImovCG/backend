@@ -15,6 +15,7 @@ import com.imovcg.back.dto.ImovelPostDTO;
 import com.imovcg.back.model.Imovel;
 import com.imovcg.back.repository.ImovelRepository;
 import com.imovcg.back.specification.ImovelSpecification;
+import com.imovcg.back.util.ImovelHash;
 
 import java.util.Optional;
 
@@ -35,13 +36,28 @@ public class ImovelService {
             Optional<Imovel> existing = imovelRepository.findByExternalId(postDTO.getExternalId());
             if (existing.isPresent()) {
                 imovel = existing.get();
-                modelMapper.map(postDTO, imovel); // atualiza campos existentes
-                return modelMapper.map(imovelRepository.save(imovel), ImovelGetDTO.class);
+                modelMapper.map(postDTO, imovel);
+
+                String novoHash = ImovelHash.gerarHash(postDTO);
+                imovel.setHash(novoHash);
+
+                imovelRepository.save(imovel);
+                return new ImovelGetDTO(imovel);
             }
         }
 
+        String hash = ImovelHash.gerarHash(postDTO);
+
+        Optional<Imovel> existingByHash = imovelRepository.findByHash(hash);
+        if (existingByHash.isPresent()) {
+            return new ImovelGetDTO(existingByHash.get());
+        }
+
         imovel = modelMapper.map(postDTO, Imovel.class);
-        return modelMapper.map(imovelRepository.save(imovel), ImovelGetDTO.class);
+        imovel.setHash(hash);
+
+        imovelRepository.save(imovel);
+        return new ImovelGetDTO(imovel);
     }
 
     public ImovelGetDTO getImovel(Long id) {
