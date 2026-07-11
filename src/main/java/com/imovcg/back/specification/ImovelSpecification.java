@@ -32,12 +32,36 @@ public class ImovelSpecification {
                 );
             }
 
-            if (filtros.getTipo() != null && !filtros.getTipo().isBlank()) {
+            if (filtros.getTipoImovel() != null && !filtros.getTipoImovel().isBlank()) {
                 predicates.add(
                     cb.equal(
                         cb.lower(root.get("tipo")),
-                        filtros.getTipo().toLowerCase()
+                        filtros.getTipoImovel().toLowerCase()
                     )
+                );
+            }
+
+            if (filtros.getCidade() != null && !filtros.getCidade().isBlank()) {
+                predicates.add(
+                    cb.equal(
+                        cb.lower(root.get("cidade")),
+                        filtros.getCidade().toLowerCase()
+                    )
+                );
+            }
+
+            if (filtros.getBairro() != null && !filtros.getBairro().isBlank()) {
+                predicates.add(
+                    cb.like(
+                        cb.lower(root.get("bairro")),
+                        "%" + filtros.getBairro().toLowerCase() + "%"
+                    )
+                );
+            }
+
+            if (filtros.getQuartos() != null) {
+                predicates.add(
+                    cb.equal(root.get("quartos"), filtros.getQuartos())
                 );
             }
 

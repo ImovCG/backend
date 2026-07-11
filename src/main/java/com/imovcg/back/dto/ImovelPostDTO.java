@@ -17,9 +17,22 @@ public class ImovelPostDTO {
     private String endereco;
     
     @NotBlank
-    private String tipo;
+    private String tipoImovel;
     
     @NotBlank
     private String url;
+    private String externalId;
+    private String tipoAnuncio;
+    private String categoria;
+    private String cidade;
+    private String bairro;
+    private Integer quartos;
+    private Integer banheiros;
+    private Double areaM2;
+    private Double condominio;
+    private Double iptu;
+    private Integer vagas;
+    private String dataColeta;
+    private String descricao;
 
 }
