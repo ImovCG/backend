@@ -6,8 +6,9 @@ import lombok.Data;
 public class ImoveisFiltrosDTO {
     private Double precoMin;
     private Double precoMax;
-    private String tipoImovel;
     private String cidade;
     private String bairro;
     private Integer quartos;
+    private Integer quartosMin;
+    private Double areaMin;
 }

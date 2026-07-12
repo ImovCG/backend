@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ImovelRepository extends JpaRepository<Imovel, Long>, JpaSpecificationExecutor<Imovel> {
 
+	Optional<Imovel> findByFonteAndExternalId(String fonte, String externalId);
 	Optional<Imovel> findByExternalId(String externalId);
 	Optional<Imovel> findByHash(String hash);
 	boolean existsByHash(String hash);

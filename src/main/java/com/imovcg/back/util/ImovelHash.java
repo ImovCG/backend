@@ -12,11 +12,12 @@ public class ImovelHash {
 
     public static String gerarHash(ImovelPostDTO dto) {
         String conteudo = String.join("|",
+                normalizar(dto.getFonte()),
+                normalizar(dto.getExternalId()),
                 normalizar(dto.getTitulo()),
                 normalizarNumero(dto.getPreco()),
                 normalizar(dto.getBairro()),
                 normalizar(dto.getEndereco()),
-                normalizar(dto.getTipoImovel()),
                 normalizarInteiro(dto.getQuartos()),
                 normalizarInteiro(dto.getBanheiros()),
                 normalizarNumero(dto.getAreaM2()),
