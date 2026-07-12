@@ -2,6 +2,7 @@ package com.imovcg.back.controller;
 
 import com.imovcg.back.dto.ImoveisFiltrosDTO;
 import com.imovcg.back.dto.ImovelGetDTO;
+import com.imovcg.back.dto.ImovelLoteDTO;
 import com.imovcg.back.dto.ImovelPostDTO;
 import com.imovcg.back.service.ImovelService;
 
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import jakarta.validation.Valid;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/imoveis")
@@ -44,5 +46,10 @@ public class ImovelController {
                 .buildAndExpand(created.getId())
                 .toUri();
         return ResponseEntity.created(location).body(created);
+    }
+
+    @PostMapping("/lote")
+    public ResponseEntity<List<ImovelGetDTO>> createLote(@RequestBody @Valid ImovelLoteDTO loteDTO) {
+        return ResponseEntity.status(201).body(imovelService.saveLote(loteDTO.getImoveis()));
     }
 }

@@ -2,6 +2,9 @@ package com.imovcg.back.dto;
 
 import com.imovcg.back.model.Imovel;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,12 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ImovelGetDTO {
     private Long id;
+    private String externalId;
+    private String fonte;
     private String titulo;
     private Double preco;
     private String endereco;
-    private String tipoImovel;
     private String url;
-    private String externalId;
+    private String estado;
     private String tipoAnuncio;
     private String categoria;
     private String cidade;
@@ -25,17 +29,21 @@ public class ImovelGetDTO {
     private Double condominio;
     private Double iptu;
     private Integer vagas;
-    private String dataColeta;
+    private LocalDate dataColeta;
     private String descricao;
+    private List<String> fotos;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public ImovelGetDTO (Imovel imovel) {
         this.id = imovel.getId();
+        this.externalId = imovel.getExternalId();
+        this.fonte = imovel.getFonte();
         this.titulo = imovel.getTitulo();
         this.preco = imovel.getPreco();
         this.endereco = imovel.getEndereco();
-        this.tipoImovel = imovel.getTipoImovel();
         this.url = imovel.getUrl();
-        this.externalId = imovel.getExternalId();
+        this.estado = imovel.getEstado();
         this.tipoAnuncio = imovel.getTipoAnuncio();
         this.categoria = imovel.getCategoria();
         this.cidade = imovel.getCidade();
@@ -48,5 +56,8 @@ public class ImovelGetDTO {
         this.vagas = imovel.getVagas();
         this.dataColeta = imovel.getDataColeta();
         this.descricao = imovel.getDescricao();
+        this.fotos = imovel.getFotos().stream().map(foto -> foto.getUrl()).toList();
+        this.createdAt = imovel.getCreatedAt();
+        this.updatedAt = imovel.getUpdatedAt();
     }
 }

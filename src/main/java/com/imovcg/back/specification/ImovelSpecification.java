@@ -32,14 +32,6 @@ public class ImovelSpecification {
                 );
             }
 
-            if (filtros.getTipoImovel() != null && !filtros.getTipoImovel().isBlank()) {
-                predicates.add(
-                    cb.equal(
-                        cb.lower(root.get("tipo")),
-                        filtros.getTipoImovel().toLowerCase()
-                    )
-                );
-            }
 
             if (filtros.getCidade() != null && !filtros.getCidade().isBlank()) {
                 predicates.add(
@@ -62,6 +54,18 @@ public class ImovelSpecification {
             if (filtros.getQuartos() != null) {
                 predicates.add(
                     cb.equal(root.get("quartos"), filtros.getQuartos())
+                );
+            }
+
+            if (filtros.getQuartosMin() != null) {
+                predicates.add(
+                    cb.greaterThanOrEqualTo(root.get("quartos"), filtros.getQuartosMin())
+                );
+            }
+
+            if (filtros.getAreaMin() != null) {
+                predicates.add(
+                    cb.greaterThanOrEqualTo(root.get("areaM2"), filtros.getAreaMin())
                 );
             }
 
