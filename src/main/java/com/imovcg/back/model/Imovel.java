@@ -49,6 +49,7 @@ public class Imovel {
     private Double iptu;
     private Integer vagas;
     private LocalDate dataColeta;
+    @Column(columnDefinition = "TEXT")
     private String descricao;
     @OneToMany(mappedBy = "imovel", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ImovelFoto> fotos = new ArrayList<>();
