@@ -10,5 +10,7 @@ public class ImoveisFiltrosDTO {
     private String bairro;
     private Integer quartos;
     private Integer quartosMin;
+    private Integer banheirosMin;
     private Double areaMin;
+    private String categoria;
 }

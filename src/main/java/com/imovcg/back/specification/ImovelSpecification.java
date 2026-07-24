@@ -63,9 +63,24 @@ public class ImovelSpecification {
                 );
             }
 
+            if (filtros.getBanheirosMin() != null) {
+                predicates.add(
+                    cb.greaterThanOrEqualTo(root.get("banheiros"), filtros.getBanheirosMin())
+                );
+            }
+
             if (filtros.getAreaMin() != null) {
                 predicates.add(
                     cb.greaterThanOrEqualTo(root.get("areaM2"), filtros.getAreaMin())
+                );
+            }
+
+            if (filtros.getCategoria() != null && !filtros.getCategoria().isBlank()) {
+                predicates.add(
+                    cb.equal(
+                        cb.lower(root.get("categoria")),
+                        filtros.getCategoria().toLowerCase()
+                    )
                 );
             }
 
