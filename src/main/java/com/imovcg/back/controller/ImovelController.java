@@ -33,6 +33,13 @@ public class ImovelController {
         return ResponseEntity.ok(imovelService.getImoveis(filtros, pageable));
     }
 
+    @GetMapping("/fonte/{fonte}")
+    public ResponseEntity<Page<ImovelGetDTO>> getImoveisPorFonte(@PathVariable String fonte, Pageable pageable) {
+        ImoveisFiltrosDTO filtros = new ImoveisFiltrosDTO();
+        filtros.setFonte(fonte);
+        return ResponseEntity.ok(imovelService.getImoveis(filtros, pageable));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ImovelGetDTO> getImovel(@PathVariable Long id) {
         return ResponseEntity.ok(imovelService.getImovel(id));

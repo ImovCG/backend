@@ -84,6 +84,15 @@ public class ImovelSpecification {
                 );
             }
 
+            if (filtros.getFonte() != null && !filtros.getFonte().isBlank()) {
+                predicates.add(
+                    cb.equal(
+                        cb.lower(root.get("fonte")),
+                        filtros.getFonte().toLowerCase()
+                    )
+                );
+            }
+
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }
