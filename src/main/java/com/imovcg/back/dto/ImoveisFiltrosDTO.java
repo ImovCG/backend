@@ -13,4 +13,5 @@ public class ImoveisFiltrosDTO {
     private Integer banheirosMin;
     private Double areaMin;
     private String categoria;
+    private String fonte;
 }
