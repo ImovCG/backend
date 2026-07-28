@@ -23,6 +23,8 @@ public class ImovelGetDTO {
     private String categoria;
     private String cidade;
     private String bairro;
+    private Double latitude;
+    private Double longitude;
     private Integer quartos;
     private Integer banheiros;
     private Double areaM2;
@@ -48,6 +50,8 @@ public class ImovelGetDTO {
         this.categoria = imovel.getCategoria();
         this.cidade = imovel.getCidade();
         this.bairro = imovel.getBairro();
+        this.latitude = imovel.getLatitude();
+        this.longitude = imovel.getLongitude();
         this.quartos = imovel.getQuartos();
         this.banheiros = imovel.getBanheiros();
         this.areaM2 = imovel.getAreaM2();

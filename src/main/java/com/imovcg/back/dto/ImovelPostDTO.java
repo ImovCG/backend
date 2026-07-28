@@ -36,6 +36,8 @@ public class ImovelPostDTO {
     private String categoria;
     private String cidade;
     private String bairro;
+    private Double latitude;
+    private Double longitude;
     private Integer quartos;
     private Integer banheiros;
     private Double areaM2;
