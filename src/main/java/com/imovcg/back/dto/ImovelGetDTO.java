@@ -34,6 +34,8 @@ public class ImovelGetDTO {
     private LocalDate dataColeta;
     private String descricao;
     private List<String> fotos;
+    private String anuncianteNome;
+    private String anuncianteTelefone;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -61,6 +63,10 @@ public class ImovelGetDTO {
         this.dataColeta = imovel.getDataColeta();
         this.descricao = imovel.getDescricao();
         this.fotos = imovel.getFotos().stream().map(foto -> foto.getUrl()).toList();
+        if (imovel.getAnunciante() != null) {
+            this.anuncianteNome = imovel.getAnunciante().getNome();
+            this.anuncianteTelefone = imovel.getAnunciante().getTelefone();
+        }
         this.createdAt = imovel.getCreatedAt();
         this.updatedAt = imovel.getUpdatedAt();
     }

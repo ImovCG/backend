@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import com.imovcg.back.model.Imovel;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,5 +15,7 @@ public interface ImovelRepository extends JpaRepository<Imovel, Long>, JpaSpecif
 	Optional<Imovel> findByExternalId(String externalId);
 	Optional<Imovel> findByHash(String hash);
 	boolean existsByHash(String hash);
+	List<Imovel> findByAnuncianteIdOrderByCreatedAtDesc(Long anuncianteId);
+	Optional<Imovel> findByIdAndAnuncianteId(Long id, Long anuncianteId);
 
 }

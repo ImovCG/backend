@@ -7,6 +7,7 @@ import java.text.Normalizer;
 import java.util.Locale;
 
 import com.imovcg.back.dto.ImovelPostDTO;
+import com.imovcg.back.model.Imovel;
 
 public class ImovelHash {
 
@@ -24,6 +25,25 @@ public class ImovelHash {
                 normalizarNumero(dto.getCondominio()),
                 normalizarNumero(dto.getIptu()),
                 normalizarInteiro(dto.getVagas())
+        );
+
+        return sha256(conteudo);
+    }
+
+    public static String gerarHash(Imovel imovel) {
+        String conteudo = String.join("|",
+                normalizar(imovel.getFonte()),
+                normalizar(imovel.getExternalId()),
+                normalizar(imovel.getTitulo()),
+                normalizarNumero(imovel.getPreco()),
+                normalizar(imovel.getBairro()),
+                normalizar(imovel.getEndereco()),
+                normalizarInteiro(imovel.getQuartos()),
+                normalizarInteiro(imovel.getBanheiros()),
+                normalizarNumero(imovel.getAreaM2()),
+                normalizarNumero(imovel.getCondominio()),
+                normalizarNumero(imovel.getIptu()),
+                normalizarInteiro(imovel.getVagas())
         );
 
         return sha256(conteudo);

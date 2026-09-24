@@ -5,8 +5,9 @@ import com.imovcg.back.dto.ImoveisFiltrosDTO;
 
 import org.springframework.data.jpa.domain.Specification;
 import jakarta.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.*;
 
 public class ImovelSpecification {
 
