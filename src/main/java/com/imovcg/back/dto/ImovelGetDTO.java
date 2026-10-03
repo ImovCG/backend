@@ -1,7 +1,9 @@
 package com.imovcg.back.dto;
 
+import com.imovcg.back.completude.AvaliacaoCompletude;
+import com.imovcg.back.completude.CalculadoraCompletudeImovel;
+import com.imovcg.back.completude.StatusCompletude;
 import com.imovcg.back.model.Imovel;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,6 +36,9 @@ public class ImovelGetDTO {
     private LocalDate dataColeta;
     private String descricao;
     private List<String> fotos;
+    private Integer completude;
+    private StatusCompletude statusCompletude;
+    private List<String> camposFaltantes;
     private String anuncianteNome;
     private String anuncianteTelefone;
     private LocalDateTime createdAt;
@@ -63,6 +68,13 @@ public class ImovelGetDTO {
         this.dataColeta = imovel.getDataColeta();
         this.descricao = imovel.getDescricao();
         this.fotos = imovel.getFotos().stream().map(foto -> foto.getUrl()).toList();
+
+        AvaliacaoCompletude avaliacao = CalculadoraCompletudeImovel.avaliar(imovel);
+        this.completude = imovel.getCompletude() == null
+                ? avaliacao.percentual() : imovel.getCompletude();
+        this.statusCompletude = StatusCompletude.dePercentual(this.completude);
+        this.camposFaltantes = avaliacao.camposFaltantes();
+
         if (imovel.getAnunciante() != null) {
             this.anuncianteNome = imovel.getAnunciante().getNome();
             this.anuncianteTelefone = imovel.getAnunciante().getTelefone();

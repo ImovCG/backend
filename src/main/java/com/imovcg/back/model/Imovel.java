@@ -54,6 +54,7 @@ public class Imovel {
     private Double condominio;
     private Double iptu;
     private Integer vagas;
+    private Integer completude;
     private LocalDate dataColeta;
     @Column(columnDefinition = "TEXT")
     private String descricao;

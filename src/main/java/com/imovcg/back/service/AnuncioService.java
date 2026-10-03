@@ -1,5 +1,6 @@
 package com.imovcg.back.service;
 
+import com.imovcg.back.completude.CalculadoraCompletudeImovel;
 import com.imovcg.back.dto.AnuncioDTO;
 import com.imovcg.back.dto.ImovelGetDTO;
 import com.imovcg.back.model.Anunciante;
@@ -102,7 +103,7 @@ public class AnuncioService {
         imovel.setDescricao(dto.getDescricao());
 
         sincronizarFotos(imovel, dto.getFotos());
-
+        imovel.setCompletude(CalculadoraCompletudeImovel.avaliar(imovel).percentual());
         imovel.setHash(ImovelHash.gerarHash(imovel));
     }
 

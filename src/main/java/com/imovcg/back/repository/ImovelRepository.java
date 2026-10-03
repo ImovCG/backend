@@ -16,6 +16,7 @@ public interface ImovelRepository extends JpaRepository<Imovel, Long>, JpaSpecif
 	Optional<Imovel> findByHash(String hash);
 	boolean existsByHash(String hash);
 	List<Imovel> findByAnuncianteIdOrderByCreatedAtDesc(Long anuncianteId);
+	List<Imovel> findTop100ByCompletudeIsNullOrderByIdAsc();
 	Optional<Imovel> findByIdAndAnuncianteId(Long id, Long anuncianteId);
 
 }

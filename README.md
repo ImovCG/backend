@@ -126,3 +126,30 @@ src
 ```
 ---
 Projeto desenvolvido para a disciplina de Projeto I.
+
+## Completude dos anúncios
+
+Todos os anúncios, sejam cadastrados manualmente ou recebidos do scraper, usam a mesma métrica de completude:
+
+- dados básicos: 30% (`titulo`, `preco`, `tipoAnuncio` e `categoria`);
+- localização: 25% (`endereco`, `bairro`, `cidade` e `estado`);
+- características: 30% (`quartos`, `banheiros`, `areaM2` e `vagas`);
+- conteúdo: 15% (`descricao` com ao menos 30 caracteres e pelo menos uma foto).
+
+Condomínio e IPTU não pontuam porque podem não se aplicar ao imóvel. O percentual é arredondado e classificado como `INCOMPLETO` (0–49), `PARCIALMENTE_COMPLETO` (50–79) ou `COMPLETO` (80–100).
+
+As respostas de imóveis expõem os campos `completude`, `statusCompletude` e `camposFaltantes`. Quando o cliente não informa `sort`, `GET /api/imoveis` ordena por `completude,desc`, `updatedAt,desc` e `id,desc` antes de paginar.
+
+### Backfill
+
+Na inicialização, o backend calcula a completude apenas de registros cujo valor ainda é nulo, em lotes de 100. A operação é idempotente. Para desativá-la temporariamente:
+
+```env
+COMPLETUDE_BACKFILL_ENABLED=false
+```
+
+### Testes
+
+```bash
+./mvnw test
+```

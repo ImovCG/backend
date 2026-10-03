@@ -6,11 +6,11 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.imovcg.back.completude.CalculadoraCompletudeImovel;
 import com.imovcg.back.dto.ImoveisFiltrosDTO;
 import com.imovcg.back.dto.ImovelGetDTO;
 import com.imovcg.back.dto.ImovelPostDTO;
@@ -25,33 +25,31 @@ import java.util.Optional;
 @Service
 @Transactional
 public class ImovelService {
-    
-    @Autowired
-    private ImovelRepository imovelRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ImovelRepository imovelRepository;
+    private final ModelMapper modelMapper;
+
+    public ImovelService(ImovelRepository imovelRepository, ModelMapper modelMapper) {
+        this.imovelRepository = imovelRepository;
+        this.modelMapper = modelMapper;
+        this.modelMapper.typeMap(ImovelPostDTO.class, Imovel.class)
+                .addMappings(mapper -> mapper.skip(Imovel::setFotos));
+    }
 
     public ImovelGetDTO saveImovel(ImovelPostDTO postDTO) {
         Imovel imovel;
 
-        modelMapper.typeMap(ImovelPostDTO.class, Imovel.class)
-        .addMappings(mapper -> mapper.skip(Imovel::setFotos));
-        
         if (postDTO.getFonte() != null && !postDTO.getFonte().isBlank()
                 && postDTO.getExternalId() != null && !postDTO.getExternalId().isBlank()) {
             Optional<Imovel> existing = imovelRepository.findByFonteAndExternalId(
-                postDTO.getFonte(),
-                postDTO.getExternalId()
-            );
+                    postDTO.getFonte(),
+                    postDTO.getExternalId());
             if (existing.isPresent()) {
                 imovel = existing.get();
                 modelMapper.map(postDTO, imovel);
                 sincronizarFotos(imovel, postDTO.getFotos());
-
-                String novoHash = ImovelHash.gerarHash(postDTO);
-                imovel.setHash(novoHash);
-
+                imovel.setHash(ImovelHash.gerarHash(postDTO));
+                atualizarCompletude(imovel);
                 imovelRepository.save(imovel);
                 return new ImovelGetDTO(imovel);
             }
@@ -63,26 +61,26 @@ public class ImovelService {
                 imovel = existing.get();
                 modelMapper.map(postDTO, imovel);
                 sincronizarFotos(imovel, postDTO.getFotos());
-
-                String novoHash = ImovelHash.gerarHash(postDTO);
-                imovel.setHash(novoHash);
-
+                imovel.setHash(ImovelHash.gerarHash(postDTO));
+                atualizarCompletude(imovel);
                 imovelRepository.save(imovel);
                 return new ImovelGetDTO(imovel);
             }
         }
 
         String hash = ImovelHash.gerarHash(postDTO);
-
         Optional<Imovel> existingByHash = imovelRepository.findByHash(hash);
         if (existingByHash.isPresent()) {
-            return new ImovelGetDTO(existingByHash.get());
+            imovel = existingByHash.get();
+            atualizarCompletude(imovel);
+            imovelRepository.save(imovel);
+            return new ImovelGetDTO(imovel);
         }
 
         imovel = modelMapper.map(postDTO, Imovel.class);
         imovel.setHash(hash);
         sincronizarFotos(imovel, postDTO.getFotos());
-
+        atualizarCompletude(imovel);
         imovelRepository.save(imovel);
         return new ImovelGetDTO(imovel);
     }
@@ -109,6 +107,11 @@ public class ImovelService {
 
         return imovelRepository.findAll(spec, pageable).map(ImovelGetDTO::new);
     } 
+
+    private void atualizarCompletude(Imovel imovel) {
+        int percentual = CalculadoraCompletudeImovel.avaliar(imovel).percentual();
+        imovel.setCompletude(percentual);
+    }
 
     private void sincronizarFotos(Imovel imovel, List<String> fotos) {
         imovel.getFotos().clear();
