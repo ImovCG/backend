@@ -16,6 +16,7 @@ Os filtros disponíveis atualmente incluem:
 * Preço mínimo
 * Preço máximo
 * Tipo do imóvel (Casa, Apartamento, etc.)
+* Universidade de referência (`UFCG`, `UEPB` ou `IFPB`) e distância máxima em quilômetros
 
 ---
 
@@ -139,6 +140,14 @@ Todos os anúncios, sejam cadastrados manualmente ou recebidos do scraper, usam 
 Condomínio e IPTU não pontuam porque podem não se aplicar ao imóvel. O percentual é arredondado e classificado como `INCOMPLETO` (0–49), `PARCIALMENTE_COMPLETO` (50–79) ou `COMPLETO` (80–100).
 
 As respostas de imóveis expõem os campos `completude`, `statusCompletude` e `camposFaltantes`. Quando o cliente não informa `sort`, `GET /api/imoveis` ordena por `completude,desc`, `updatedAt,desc` e `id,desc` antes de paginar.
+
+Para exibir a distância em linha reta até um campus de Campina Grande, informe
+`universidade=UFCG`, `universidade=UEPB` ou `universidade=IFPB` em
+`GET /api/imoveis`. A resposta inclui `distanciaUniversidadeKm` (arredondada
+para duas casas decimais) quando o anúncio tem latitude e longitude. Para filtrar
+os resultados por raio, informe também `distanciaMaximaKm`; esse parâmetro exige
+uma universidade e considera apenas anúncios com coordenadas. Sem coordenadas, a
+distância é nula e o imóvel não entra no resultado filtrado por raio.
 
 ### Backfill
 

@@ -4,6 +4,7 @@ import com.imovcg.back.completude.AvaliacaoCompletude;
 import com.imovcg.back.completude.CalculadoraCompletudeImovel;
 import com.imovcg.back.completude.StatusCompletude;
 import com.imovcg.back.model.Imovel;
+import com.imovcg.back.util.UniversidadeCampinaGrande;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,6 +28,7 @@ public class ImovelGetDTO {
     private String bairro;
     private Double latitude;
     private Double longitude;
+    private Double distanciaUniversidadeKm;
     private Integer quartos;
     private Integer banheiros;
     private Double areaM2;
@@ -45,6 +47,10 @@ public class ImovelGetDTO {
     private LocalDateTime updatedAt;
 
     public ImovelGetDTO (Imovel imovel) {
+        this(imovel, null);
+    }
+
+    public ImovelGetDTO(Imovel imovel, UniversidadeCampinaGrande universidade) {
         this.id = imovel.getId();
         this.externalId = imovel.getExternalId();
         this.fonte = imovel.getFonte();
@@ -59,6 +65,10 @@ public class ImovelGetDTO {
         this.bairro = imovel.getBairro();
         this.latitude = imovel.getLatitude();
         this.longitude = imovel.getLongitude();
+        if (universidade != null && latitude != null && longitude != null) {
+            this.distanciaUniversidadeKm = Math.round(
+                    universidade.distanciaEmKm(latitude, longitude) * 100.0) / 100.0;
+        }
         this.quartos = imovel.getQuartos();
         this.banheiros = imovel.getBanheiros();
         this.areaM2 = imovel.getAreaM2();

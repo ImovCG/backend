@@ -19,6 +19,7 @@ import com.imovcg.back.model.Imovel;
 import com.imovcg.back.repository.ImovelRepository;
 import com.imovcg.back.specification.ImovelSpecification;
 import com.imovcg.back.util.ImovelHash;
+import com.imovcg.back.util.UniversidadeCampinaGrande;
 
 import java.util.Optional;
 
@@ -104,8 +105,12 @@ public class ImovelService {
 
     public Page<ImovelGetDTO> getImoveis (ImoveisFiltrosDTO filtrosDTO, Pageable pageable) {
         Specification<Imovel> spec = ImovelSpecification.filtros(filtrosDTO);
+        UniversidadeCampinaGrande universidade = filtrosDTO.getUniversidade() == null
+                || filtrosDTO.getUniversidade().isBlank()
+                ? null : UniversidadeCampinaGrande.from(filtrosDTO.getUniversidade());
 
-        return imovelRepository.findAll(spec, pageable).map(ImovelGetDTO::new);
+        return imovelRepository.findAll(spec, pageable)
+                .map(imovel -> new ImovelGetDTO(imovel, universidade));
     } 
 
     private void atualizarCompletude(Imovel imovel) {

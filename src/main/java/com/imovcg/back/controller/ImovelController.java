@@ -9,6 +9,8 @@ import com.imovcg.back.service.ImovelService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +34,12 @@ public class ImovelController {
 
     @GetMapping
     public ResponseEntity<Page<ImovelGetDTO>> getImoveis(
-            ImoveisFiltrosDTO filtros, Pageable pageable) {
+            @Valid ImoveisFiltrosDTO filtros, Pageable pageable) {
+        if (filtros.getDistanciaMaximaKm() != null
+                && (filtros.getUniversidade() == null || filtros.getUniversidade().isBlank())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "universidade é obrigatória quando distanciaMaximaKm for informada");
+        }
         return ResponseEntity.ok(imovelService.getImoveis(
                 filtros, aplicarOrdenacaoPadrao(pageable)));
     }
