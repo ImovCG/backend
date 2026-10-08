@@ -3,9 +3,9 @@ package com.imovcg.back.util;
 import java.util.Locale;
 
 public enum UniversidadeCampinaGrande {
-    UFCG(-7.2158, -35.9090),
-    UEPB(-7.2075, -35.9174),
-    IFPB(-7.2350, -35.8810);
+    UFCG(-7.2142430, -35.9077467),
+    UEPB(-7.2099317, -35.9152810),
+    IFPB(-7.2401400, -35.9154358);
 
     private static final double RAIO_TERRA_KM = 6371.0088;
 
