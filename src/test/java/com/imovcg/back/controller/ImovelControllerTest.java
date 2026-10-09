@@ -84,6 +84,35 @@ class ImovelControllerTest {
     }
 
     @Test
+    void deveAceitarFiltroPorUniversidadeEDistanciaMaxima() throws Exception {
+        when(imovelService.getImoveis(any(ImoveisFiltrosDTO.class), any(Pageable.class)))
+                .thenReturn(Page.empty());
+
+        mockMvc.perform(get("/api/imoveis")
+                        .param("universidade", "uepb")
+                        .param("distanciaMaximaKm", "5"))
+                .andExpect(status().isOk());
+
+        ArgumentCaptor<ImoveisFiltrosDTO> captor =
+                ArgumentCaptor.forClass(ImoveisFiltrosDTO.class);
+        verify(imovelService).getImoveis(captor.capture(), any(Pageable.class));
+        assertEquals("uepb", captor.getValue().getUniversidade());
+        assertEquals(5.0, captor.getValue().getDistanciaMaximaKm());
+    }
+
+    @Test
+    void deveRejeitarDistanciaSemUniversidade() throws Exception {
+        mockMvc.perform(get("/api/imoveis").param("distanciaMaximaKm", "5"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void deveRejeitarUniversidadeDesconhecida() throws Exception {
+        mockMvc.perform(get("/api/imoveis").param("universidade", "UFC"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void deveSerializarDadosDeCompletudeNoDetalhe() throws Exception {
         Imovel imovel = new Imovel();
         imovel.setId(42L);
